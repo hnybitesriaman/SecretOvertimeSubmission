@@ -513,6 +513,7 @@
   }
 
   const scriptURL = "https://script.google.com/macros/s/AKfycby8Yh4hjdmx_PvNHfaZxqVarU9LTSCvr23igGpEhKFJO26ov20DWN0HSfbmcXvBCmc2yA/exec";
+  let isSubmitting = false; // ← ADD THIS LINE
   const form = document.getElementById("overtimeForm");
   const msg = document.getElementById("thankYouMsg");
 
@@ -552,12 +553,39 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+  // ✅ PREVENT DOUBLE SUBMISSION - ADD THIS CHECK
+  if (isSubmitting) {
+    showMessage("⏳ Please wait, your submission is being processed...", "#fff3cd", "#856404");
+    return;
+  }
+  
+  isSubmitting = true; // Set flag to prevent multiple submissions
+  
+  const submitBtn = form.querySelector("button[type='submit']");
+  const originalBtnText = submitBtn.innerHTML;
+  
+  // Disable submit button and show loading state
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Submitting...";
+    submitBtn.style.opacity = "0.7";
+    submitBtn.style.cursor = "not-allowed";
+  }
+      
     // Combine date
     const day = form.tarikh_day.value;
     const month = form.tarikh_month.value;
     const year = form.tarikh_year.value;
     if (!day || !month || !year) {
       alert("Please select a complete date (DD/MM/YYYY)");
+    // Reset submission state if validation fails
+    isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.style.opacity = "1";
+      submitBtn.style.cursor = "pointer";
+    }
       return;
     }
     form.querySelector("input[name=tarikh]").value = `${day}/${month}/${year}`;
@@ -583,8 +611,22 @@
     })
     .catch((error) => {
       showMessage("❌ Connection error: " + error.message, "#ffd6d6", "#800000");
+    })
+    .finally(() => {
+      // ✅ ALWAYS RESET THE FLAG - IMPORTANT!
+      isSubmitting = false;
+      
+      // Re-enable submit button with delay
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.style.opacity = "1";
+          submitBtn.style.cursor = "pointer";
+        }
+      }, 1000);
     });
-  });
+  }); // ← THIS IS THE MISSING CLOSING BRACE
 
   // Mobile-specific enhancements
   window.addEventListener('resize', function() {
@@ -610,6 +652,7 @@
 </body>
 
 </html>
+
 
 
 
