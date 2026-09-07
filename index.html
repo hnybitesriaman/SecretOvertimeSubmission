@@ -353,14 +353,21 @@
       <br>
 
       <!-- Full Name -->
-      <label><b>Nama Penuh / Full Name:</b></label><br>
-      <input type="text" name="nama" placeholder="ISI NAMA PENUH ANDA..." required
-        oninput="this.value=this.value
-          .replace(/[^a-zA-Z\s]/g,'')
-          .trimStart()
-          .toUpperCase();"
-        style="width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;">
-      <br><br>
+<label><b>Nama Penuh / Full Name:</b></label><br>
+<select name="nama" required
+  style="width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;font-size:16px;">
+  <option value="" disabled selected>Pilih Nama Anda</option>
+  <option value="FATIN NUR AZMINA BINTI MOHAMAD HALMIZAL">FATIN NUR AZMINA BINTI MOHAMAD HALMIZAL</option>
+  <option value="JESSICA ANAK WEYINE">JESSICA ANAK WEYINE</option>
+  <option value="LUCYIANA ANAK JUMENG">LUCYIANA ANAK JUMENG</option>
+  <option value="NORISHA LEE BINTI MOHD AFFANDI LEE">NORISHA LEE BINTI MOHD AFFANDI LEE</option>
+  <option value="NUR LIYANA BINTI KEPARAWI">NUR LIYANA BINTI KEPARAWI</option>
+  <option value="NURUL AZWA BINTI ABDUL WAHAB">NURUL AZWA BINTI ABDUL WAHAB</option>
+  <option value="PATRICIA TUNAI ANAK JOHNNY">PATRICIA TUNAI ANAK JOHNNY</option>
+  <option value="SOFIA LAIE ANAK JAMES">SOFIA LAIE ANAK JAMES</option>
+</select>
+<br><br>
+
 
       <!-- IC -->
       <label><b>No. Kad Pengenalan / Identification Card (I.C.):</b></label><br>
